@@ -164,6 +164,15 @@ namespace DbUp.Support
             return sqlObjectParser.UnquoteIdentifier(quotedIdentifier);
         }
 
+        /// <summary>
+        /// Quotes the name of the SQLite object in square brackets to allow Special characters in the object name.
+        /// </summary>
+        /// <param name="objectName">Name of the object to quote.</param>
+        protected string QuoteIdentifier(string objectName)
+        {
+            return sqlObjectParser.QuoteIdentifier(objectName);
+        }
+
         protected virtual void OnTableCreated(Func<IDbCommand> dbCommandFactory)
         {
             // TODO: Now we could run any migration scripts on it using some mechanism to make sure the table is ready for use.

@@ -13,9 +13,9 @@ namespace DbUp.Oracle
     {
         bool journalExists;
         /// <summary>
-        /// Creates a new MySql table journal.
+        /// Creates a new Oracle table journal.
         /// </summary>
-        /// <param name="connectionManager">The MySql connection manager.</param>
+        /// <param name="connectionManager">The Oracle connection manager.</param>
         /// <param name="logger">The upgrade logger.</param>
         /// <param name="schema">The name of the schema the journal is stored in.</param>
         /// <param name="table">The name of the journal table.</param>
@@ -39,13 +39,13 @@ namespace DbUp.Oracle
                 )";
         }
 
-        protected string CreateSchemaTableSequenceSql()
+        protected virtual string CreateSchemaTableSequenceSql()
         {
             var fqSchemaTableName = this.UnquotedSchemaTableName;
             return $@" CREATE SEQUENCE {fqSchemaTableName}_sequence";
         }
 
-        protected string CreateSchemaTableTriggerSql()
+        protected virtual string CreateSchemaTableTriggerSql()
         {
             var fqSchemaTableName = this.UnquotedSchemaTableName;
             return $@" CREATE OR REPLACE TRIGGER {fqSchemaTableName}_on_insert
