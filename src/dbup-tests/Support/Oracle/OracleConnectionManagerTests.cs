@@ -11,7 +11,7 @@ namespace DbUp.Tests.Support.Oracle
         [Fact]
         public void CanParseSingleLineScript()
         {
-            const string singleCommand = "create table FOO (myid INT NOT NULL)/";
+            const string singleCommand = "create table FOO (myid INT NOT NULL)";
 
             var connectionManager = new OracleConnectionManager("connectionstring");
             var result = connectionManager.SplitScriptIntoCommands(singleCommand);
