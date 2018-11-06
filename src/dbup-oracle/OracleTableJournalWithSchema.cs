@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DbUp.Engine.Output;
+﻿using DbUp.Engine.Output;
 using DbUp.Engine.Transactions;
+using System;
 
 namespace DbUp.Oracle
 {
@@ -11,6 +9,8 @@ namespace DbUp.Oracle
     /// </summary>
     public class OracleTableJournalWithSchema : OracleTableJournal
     {
+        #region Constructors
+
         /// <summary>
         /// Creates a new <see cref="OracleTableJournalWithSchema"/>
         /// </summary>
@@ -20,23 +20,21 @@ namespace DbUp.Oracle
         /// <param name="table">The name of the journal table.</param>
         public OracleTableJournalWithSchema(Func<IConnectionManager> connectionManager, Func<IUpgradeLog> logger, String schema, String table) : base(connectionManager, logger, schema, table)
         {
-            if (String.IsNullOrWhiteSpace(schema))
+            if (string.IsNullOrWhiteSpace(schema))
+            {
                 throw new ArgumentNullException(nameof(schema));
+            }
         }
+
+        #endregion
+
+        #region Properties
 
         private String FqSchemaTableNameToUpper
         {
             get
             {
                 return this.FqSchemaTableName.ToUpper(English);
-            }
-        }
-
-        private String UnquotedSchemaTableNameToUpper
-        {
-            get
-            {
-                return this.UnquotedSchemaTableName.ToUpper(English);
             }
         }
 
@@ -48,20 +46,32 @@ namespace DbUp.Oracle
             }
         }
 
-        protected override String CreateSchemaTableSql(String quotedPrimaryKeyName)
+        private String UnquotedSchemaTableNameToUpper
         {
-            return $@" CREATE TABLE {this.FqSchemaTableNameToUpper} 
-                    (
-                        schemaversionid NUMBER(10),
-                        scriptname VARCHAR2(255) NOT NULL,
-                        applied TIMESTAMP NOT NULL,
-                        CONSTRAINT PK_{this.UnquotedSchemaTableNameToUpper} PRIMARY KEY (schemaversionid) 
-                    )";
+            get
+            {
+                return this.UnquotedSchemaTableName.ToUpper(English);
+            }
         }
+
+        #endregion
+
+        #region Methods
 
         protected override String CreateSchemaTableSequenceSql()
         {
             return $@" CREATE SEQUENCE {this.QuotedSchemaToUpper}.{this.UnquotedSchemaTableNameToUpper}_sequence";
+        }
+
+        protected override String CreateSchemaTableSql(String quotedPrimaryKeyName)
+        {
+            return $@" CREATE TABLE {this.FqSchemaTableNameToUpper}
+                    (
+                        schemaversionid NUMBER(10),
+                        scriptname VARCHAR2(255) NOT NULL,
+                        applied TIMESTAMP NOT NULL,
+                        CONSTRAINT PK_{this.UnquotedSchemaTableNameToUpper} PRIMARY KEY (schemaversionid)
+                    )";
         }
 
         protected override String CreateSchemaTableTriggerSql()
@@ -76,5 +86,7 @@ namespace DbUp.Oracle
                     END;
                 ";
         }
+
+        #endregion
     }
 }
