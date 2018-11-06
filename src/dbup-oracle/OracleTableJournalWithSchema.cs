@@ -54,6 +54,15 @@ namespace DbUp.Oracle
             }
         }
 
+        private String SchemaToUpper
+        {
+            get
+            {
+                return this.SchemaTableSchema.ToUpper(English);
+            }
+        }
+
+
         #endregion
 
         #region Methods
@@ -85,6 +94,22 @@ namespace DbUp.Oracle
                         FROM dual;
                     END;
                 ";
+        }
+
+
+        protected override String DoesTableExistSql()
+        {
+            return $"select 1 from all_tables where table_name = '{this.UnquotedSchemaTableNameToUpper}' and owner = '{this.SchemaToUpper}'";
+        }
+
+        protected override String GetInsertJournalEntrySql(String scriptName, String applied)
+        {
+            return $"insert into {this.FqSchemaTableNameToUpper} (ScriptName, Applied) values (:" + scriptName.Replace("@", "") + ",:" + applied.Replace("@", "") + ")";
+        }
+
+        protected override String GetJournalEntriesSql()
+        {
+            return $"select scriptname from {this.FqSchemaTableNameToUpper} order by scriptname";
         }
 
         #endregion
