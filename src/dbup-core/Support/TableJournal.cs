@@ -57,6 +57,13 @@ namespace DbUp.Support
 
         protected Func<IUpgradeLog> Log { get; private set; }
 
+        /// <summary>
+        /// Creates script for inserting specific journal entry
+        /// </summary>
+        /// <param name="scriptName">Name of the script</param>
+        /// <returns></returns>
+        public abstract String GetInsertJournalEntryScript(String scriptName);
+
         public string[] GetExecutedScripts()
         {
             return ConnectionManager().ExecuteCommandsWithManagedConnection(dbCommandFactory =>

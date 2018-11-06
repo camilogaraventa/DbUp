@@ -46,14 +46,6 @@ namespace DbUp.Oracle
             }
         }
 
-        private String UnquotedSchemaTableNameToUpper
-        {
-            get
-            {
-                return this.UnquotedSchemaTableName.ToUpper(English);
-            }
-        }
-
         private String SchemaToUpper
         {
             get
@@ -62,10 +54,22 @@ namespace DbUp.Oracle
             }
         }
 
+        private String UnquotedSchemaTableNameToUpper
+        {
+            get
+            {
+                return this.UnquotedSchemaTableName.ToUpper(English);
+            }
+        }
 
         #endregion
 
         #region Methods
+
+        public override String GetInsertJournalEntryScript(String scriptName)
+        {
+            return $"insert into {this.FqSchemaTableNameToUpper} (ScriptName, Applied) values ('" + scriptName.Replace("@", "") + "', sysdate)";
+        }
 
         protected override String CreateSchemaTableSequenceSql()
         {
@@ -95,7 +99,6 @@ namespace DbUp.Oracle
                     END;
                 ";
         }
-
 
         protected override String DoesTableExistSql()
         {

@@ -45,5 +45,10 @@ $@"CREATE TABLE {FqSchemaTableName}
     CONSTRAINT {quotedPrimaryKeyName} PRIMARY KEY (schemaversionsid)
 )";
         }
+
+        public override String GetInsertJournalEntryScript(String scriptName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

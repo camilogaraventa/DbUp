@@ -45,5 +45,10 @@ $@"create table {FqSchemaTableName} (
     [Applied] datetime not null
 )";
         }
+
+        public override String GetInsertJournalEntryScript(String scriptName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -55,5 +55,10 @@ $@"create table {FqSchemaTableName} (
             return $"SELECT count(*) FROM information_schema.tables WHERE table_schema = '{SchemaTableSchema}'AND table_name = '{UnquotedSchemaTableName}')";
 
         }
+
+        public override String GetInsertJournalEntryScript(String scriptName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

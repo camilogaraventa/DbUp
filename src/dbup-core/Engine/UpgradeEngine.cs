@@ -41,6 +41,16 @@ namespace DbUp.Engine
         }
 
         /// <summary>
+        /// Creates script for inserting specific journal entry
+        /// </summary>
+        /// <param name="scriptName">Name of the script</param>
+        /// <returns></returns>
+        public String GetInsertJournalEntryScript(String scriptName)
+        {
+            return configuration.Journal.GetInsertJournalEntryScript(scriptName);
+        }
+
+        /// <summary>
         /// Performs the database upgrade.
         /// </summary>
         public DatabaseUpgradeResult PerformUpgrade()

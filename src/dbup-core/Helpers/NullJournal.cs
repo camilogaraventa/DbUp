@@ -28,5 +28,10 @@ namespace DbUp.Helpers
 
         public void EnsureTableExistsAndIsLatestVersion(Func<IDbCommand> dbCommandFactory)
         { }
+
+        public String GetInsertJournalEntryScript(String scriptName)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

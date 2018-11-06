@@ -72,6 +72,12 @@ namespace DbUp.Oracle
             this.journalExists = true;
         }
 
+        public override String GetInsertJournalEntryScript(String scriptName)
+        {
+            var unquotedSchemaTableName = this.UnquotedSchemaTableName.ToUpper(English);
+            return $"insert into {unquotedSchemaTableName} (ScriptName, Applied) values ('" + scriptName.Replace("@", "") + "', sysdate)";
+        }
+
         protected virtual String CreateSchemaTableSequenceSql()
         {
             var fqSchemaTableName = this.UnquotedSchemaTableName;
