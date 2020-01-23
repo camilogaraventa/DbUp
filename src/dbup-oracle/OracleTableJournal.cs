@@ -75,7 +75,7 @@ namespace DbUp.Oracle
         public override String GetInsertJournalEntryScript(String scriptName)
         {
             var unquotedSchemaTableName = this.UnquotedSchemaTableName.ToUpper(English);
-            return $"insert into {unquotedSchemaTableName} (ScriptName, Applied) values ('" + scriptName.Replace("@", "") + "', sysdate)";
+            return $"INSERT INTO {unquotedSchemaTableName} (ScriptName, Applied) VALUES ('" + scriptName.Replace("@", "") + "', sysdate);" + $"{Environment.NewLine}-- 1 ROW AFFECTED";
         }
 
         protected virtual String CreateSchemaTableSequenceSql()

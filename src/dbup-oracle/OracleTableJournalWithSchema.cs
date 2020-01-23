@@ -68,7 +68,7 @@ namespace DbUp.Oracle
 
         public override String GetInsertJournalEntryScript(String scriptName)
         {
-            return $"insert into {this.FqSchemaTableNameToUpper} (ScriptName, Applied) values ('" + scriptName.Replace("@", "") + "', sysdate)";
+            return $"INSERT INTO {this.FqSchemaTableNameToUpper} (ScriptName, Applied) VALUES ('" + scriptName.Replace("@", "") + "', sysdate);" + $"{Environment.NewLine}-- 1 ROW AFFECTED";
         }
 
         protected override String CreateSchemaTableSequenceSql()
